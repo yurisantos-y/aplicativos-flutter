@@ -1,18 +1,20 @@
 import 'package:flutter/material.dart';
 import 'package:navegacao/TelaSecundaria.dart';
 
-
-void main() {
+void main(){
   runApp(MaterialApp(
+    initialRoute: "/",
+    routes: {
+      "/secundaria" : (context) => TelaSecundaria("Valor da tela Secundária"),
+    },
     home: TelaPrincipal(),
   ));
 }
 
-class TelaPrincipal extends StatefulWidget {
-  const TelaPrincipal({super.key});
 
+class TelaPrincipal extends StatefulWidget {
   @override
-  State<TelaPrincipal> createState() => _TelaPrincipalState();
+  _TelaPrincipalState createState() => _TelaPrincipalState();
 }
 
 class _TelaPrincipalState extends State<TelaPrincipal> {
@@ -28,20 +30,13 @@ class _TelaPrincipalState extends State<TelaPrincipal> {
         child: Column(
           children: <Widget>[
             TextButton(
-                onPressed: () {
-                  Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                          builder: (context) => TelaSecundaria("Yuri")
-                      )
-                  );
-                },
-                child: Text("Ir para a segunda tela"),
-                style: ButtonStyle(
-                  padding: MaterialStateProperty.all<EdgeInsets>(
-                    EdgeInsets.symmetric(horizontal: 16.0, vertical: 8.0),
-                  ),
-                ),
+              child: Text("Ir para a segunda tela"),
+              style: ButtonStyle(
+                padding: MaterialStateProperty.all(EdgeInsets.all(32)),
+              ),
+              onPressed: (){
+                Navigator.pushNamed(context, "/secundaria");
+              },
             )
           ],
         ),
@@ -49,3 +44,5 @@ class _TelaPrincipalState extends State<TelaPrincipal> {
     );
   }
 }
+
+

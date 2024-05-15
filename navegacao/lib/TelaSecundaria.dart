@@ -13,7 +13,6 @@ class TelaSecundaria extends StatefulWidget {
 class _TelaSecundariaState extends State<TelaSecundaria> {
 
 
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -25,7 +24,16 @@ class _TelaSecundariaState extends State<TelaSecundaria> {
         padding: EdgeInsets.all(32),
         child: Column(
           children: <Widget>[
-            Text("Segunda tela! valor passado: ${widget.valor} ")
+            Text("Segunda tela!"),
+            TextButton(
+              child: Text("Ir para a primeira tela"),
+              style: ButtonStyle(
+                padding: MaterialStateProperty.all(EdgeInsets.all(32)),
+              ),
+              onPressed: (){
+                Navigator.pushNamed(context, "/");
+              },
+            )
           ],
         ),
       ),
