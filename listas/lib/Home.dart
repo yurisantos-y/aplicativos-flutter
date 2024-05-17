@@ -49,7 +49,40 @@ class _HomeState extends State<Home> {
             //print("item ${ _itens[indice] ["titulo"] } ");
 
             return ListTile(
-              title: Text(_itens[indice] ["titulo"] ),
+              onTap: (){
+                showDialog(
+                    context: context,
+                builder: (context){
+                      return AlertDialog(
+                        title: Text( _itens[indice] ["titulo"] ),
+                        titlePadding: EdgeInsets.all(20),
+                        titleTextStyle: TextStyle(
+                          fontSize: 20,
+                          color: Colors.purple
+                        ),
+                        content: Text( _itens[indice] ["descricao"] ),
+                        actions: <Widget>[
+                          ElevatedButton(
+                              onPressed: (){
+                                print("Selecionado sim");
+                                Navigator.pop(context);
+                              },
+                              child: Text("Sim")
+                          ),
+                          ElevatedButton(
+                              onPressed: (){
+                                print("Selecionado não");
+                                Navigator.pop(context);
+                              },
+                              child: Text("Não")
+                          ),
+                        ],
+                      );
+                });
+              },
+              /*onLongPress: (){
+              },*/
+              title: Text( _itens[indice] ["titulo"] ),
               subtitle: Text(_itens[indice] ["descricao"]),
             );
             }),
