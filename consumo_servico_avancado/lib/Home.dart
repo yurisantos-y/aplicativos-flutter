@@ -20,7 +20,7 @@ class _HomeState extends State<Home> {
       if (response.statusCode == 200) {
         var dadosJson = json.decode(response.body);
 
-        List<Post> postagens = List<Post>.empty();
+        List<Post> postagens = [];
         for (var post in dadosJson) {
           if (post["userId"] != null &&
               post["id"] != null &&
