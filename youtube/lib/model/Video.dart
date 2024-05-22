@@ -1,10 +1,27 @@
 class Video {
+  final String id;
+  final String title;
+  final String description;
+  final String image;
+  final String channelId;
 
-  String id;
-  String titulo;
-  String descricao;
-  String imagem;
-  String canal;
+  Video({
+    required this.id,
+    required this.title,
+    required this.description,
+    required this.image,
+    required this.channelId,
+  });
 
-  Video(this.id, this.titulo, this.descricao, this.imagem, this.canal);
+  factory Video.fromJson(Map<String, dynamic> json) {
+    return Video(
+      id: json["id"]["videoId"] as String,
+      title: json["snippet"]["title"] as String,
+      description: json["snippet"]["description"] as String,
+      image: json["snippet"]["thumbnails"]["high"]["url"] as String,
+      channelId: json["snippet"]["channelId"] as String,
+    );
+  }
+
+// Other methods, getters, setters, etc.
 }

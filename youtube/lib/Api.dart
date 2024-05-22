@@ -1,6 +1,8 @@
 import 'package:http/http.dart' as http;
 import 'dart:convert';
 
+import 'package:youtube/model/Video.dart';
+
 const CHAVE_YOUTUBE_API = "AIzaSyBgepkDqOBISocKqKnaZrHhcSyw6AQCpwc";
 const ID_CANAL = "UCB_qr75-ydFVKSF9Dmo6izg";
 const URL_BASE = "https://www.googleapis.com/youtube/v3/";
@@ -22,6 +24,17 @@ class Api {
     if (response.statusCode == 200) {
       Map<String, dynamic> dadosJson = json.decode(response.body);
       if (dadosJson["items"] != null && dadosJson["items"].isNotEmpty) {
+
+        List<Video> videos = dadosJson["items"].map<Video>(
+            (map){
+              return Video.fromJson(map);
+            }
+        ).toList();
+
+        for( var video in videos) {
+          print("resultado: " + video.title);
+        }
+
         print("Resultado: " + dadosJson["items"][0]["snippet"]["title"]);
       } else {
         print("Nenhum resultado encontrado.");
