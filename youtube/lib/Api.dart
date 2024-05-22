@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:http/http.dart' as http;
 import 'dart:convert';
 
@@ -8,7 +10,7 @@ const ID_CANAL = "UCB_qr75-ydFVKSF9Dmo6izg";
 const URL_BASE = "https://www.googleapis.com/youtube/v3/";
 
 class Api {
-  Future<void> pesquisa(String pesquisar) async {
+  FutureOr<List<Video>> pesquisar(String pesquisa) async {
     final response = await http.get(
       Uri.parse(URL_BASE + "search").replace(queryParameters: {
         'part': 'snippet',
@@ -17,30 +19,27 @@ class Api {
         'order': 'date',
         'key': CHAVE_YOUTUBE_API,
         'channelId': ID_CANAL,
-        'q': pesquisar,
+        'q': pesquisa,
       }),
     );
 
     if (response.statusCode == 200) {
       Map<String, dynamic> dadosJson = json.decode(response.body);
       if (dadosJson["items"] != null && dadosJson["items"].isNotEmpty) {
-
         List<Video> videos = dadosJson["items"].map<Video>(
-            (map){
+                (map) {
               return Video.fromJson(map);
             }
         ).toList();
-
-        for( var video in videos) {
-          print("resultado: " + video.title);
-        }
-
-        print("Resultado: " + dadosJson["items"][0]["snippet"]["title"]);
+        return videos;
       } else {
         print("Nenhum resultado encontrado.");
       }
     } else {
       print("Falha na busca: ${response.statusCode}");
     }
+
+    // Added this line to ensure a return value
+    return []; // Return an empty list if no results are found
   }
 }
