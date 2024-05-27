@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:minhas_anotacoes/helper/AnotacaoHelper.dart';
+import 'package:minhas_anotacoes/model/Anotacao.dart';
 
 class Home extends StatefulWidget {
   const Home({super.key});
@@ -11,6 +13,7 @@ class _HomeState extends State<Home> {
 
   TextEditingController _tituloControlle = TextEditingController();
   TextEditingController _descricaoControlle = TextEditingController();
+  var _db = AnotacaoHelper();
 
   _exibirTelaCadastro(){
     showDialog(
@@ -47,6 +50,7 @@ class _HomeState extends State<Home> {
               ),
               ElevatedButton(
                   onPressed: (){
+                    _salvarAnotacao();
                     Navigator.pop(context);
                   },
                   child: Text("Salvar")
@@ -54,6 +58,15 @@ class _HomeState extends State<Home> {
             ],
           );
         });
+  }
+
+  _salvarAnotacao() {
+    String titulo = _tituloControlle.text;
+    String descricao = _descricaoControlle.text;
+
+    print( "data atual: "+ DateTime.now().toString() );
+    Anotacao anotacao = Anotacao(titulo, descricao, "teste");
+    //_db.salvarAnotacao(anotacao);
   }
 
   @override
