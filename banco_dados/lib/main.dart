@@ -40,7 +40,7 @@ class _HomeState extends State<Home> {
 
     Map<String, dynamic> dadosUsuario = {
       "nome" : "zurich destefanno",
-      "idade" : 46
+      "idade" : 58
     };
     int id = await bd.insert("usuarios", dadosUsuario);
     print("Salvo: $id " );
@@ -58,7 +58,8 @@ class _HomeState extends State<Home> {
     //String filtro = "an";
     //String sql = "SELECT * FROM usuarios WHERE nome LIKE '%" + filtro + "%' ";
     //String sql = "SELECT *, UPPER(nome) as nomeMaiu FROM usuarios WHERE 1=1 ORDER BY UPPER(nome) DESC ";//ASC, DESC
-    String sql = "SELECT *, UPPER(nome) as nomeMaiu FROM usuarios WHERE 1=1 ORDER BY idade DESC LIMIT 3";//ASC, DESC
+    //String sql = "SELECT *, UPPER(nome) as nomeMaiu FROM usuarios WHERE 1=1 ORDER BY idade DESC LIMIT 3";//ASC, DESC
+    String sql = "SELECT * FROM usuarios ";//ASC, DESC
     List usuarios = await bd.rawQuery(sql);
 
     for( var usuario in usuarios ){
@@ -73,11 +74,71 @@ class _HomeState extends State<Home> {
 
   }
 
+  _listarUsuarioPeloId(int id) async {
+
+    Database bd = await _recuperarBancoDados();
+
+    //CRUD -> Create, Read, Update and Delete
+    List usuarios = await bd.query(
+        "usuarios",
+        columns: ["id", "nome", "idade"],
+        where: "id = ?",
+        whereArgs: [id]
+    );
+
+    for( var usuario in usuarios ){
+      print(
+          "item id: " + usuario['id'].toString() +
+              " nome: " + usuario['nome'] +
+              " idade: " + usuario['idade'].toString()
+      );
+    }
+
+  }
+
+  _excluirUsuario(int id) async {
+
+    Database bd = await _recuperarBancoDados();
+
+    int retorno = await bd.delete(
+        "usuarios",
+        /*where: "id = ?",
+      whereArgs: [id]*/
+        where: " nome = ? AND idade = ?",
+        whereArgs: ["Jamilton Damasceno", 40]
+    );
+
+    print("item qtde removida: $retorno");
+
+  }
+
+  _atualizarUsuario(int id) async {
+
+    Database bd = await _recuperarBancoDados();
+
+    Map<String, dynamic> dadosUsuario = {
+      "nome" : "Mariana Almeida",
+      "idade" : 18
+    };
+    int retorno = await bd.update(
+        "usuarios",
+        dadosUsuario,
+        where: "id = ?",
+        whereArgs: [id]
+    );
+
+    print("item qtde atualizada: $retorno");
+
+  }
+
   @override
   Widget build(BuildContext context) {
 
-    //_salvar();
+    _salvar();
+    //_excluirUsuario(2);
+    //_atualizarUsuario(3);
     _listarUsuarios();
+    //_listarUsuarioPeloId(1);
 
     return Container();
   }
